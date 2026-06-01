@@ -2,7 +2,7 @@
 import { inject } from 'vue'
 import { useCalculo } from '../composables/useCalculo'
 
-const {custoCasca, financeiro, icms, embalagem, commissao, frete } = inject('calculo') as ReturnType<typeof useCalculo>
+const { custoCasca, financeiro, icms, embalagem, commissao, frete } = inject<ReturnType<typeof useCalculo>>('calculo')!
 </script>
 
 <template>

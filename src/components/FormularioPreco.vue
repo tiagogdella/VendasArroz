@@ -38,6 +38,7 @@ const {custoCasca, financeiro, icms, embalagem, commissao, frete } = inject('cal
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+    font-size: 20px;
 }
 </style>
 

@@ -49,5 +49,7 @@ const { precoFinal, icmsBruto, embalagem, financeiroBruto, frete,  commissaoBrut
     display: grid;
     justify-content: center;
     align-items: center;
-}
+    font-size: 20px;
+    color: white
+}   
 </style>

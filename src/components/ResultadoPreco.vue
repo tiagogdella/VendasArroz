@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { inject } from 'vue';
+import { useCalculo } from '../composables/useCalculo';
 
-const { precoFinal, icmsBruto, embalagem, financeiroBruto, frete,  commissaoBruto } = inject('calculo')
+const { precoFinal, icmsBruto, embalagem, financeiroBruto, frete,  commissaoBruto } = inject('calculo') as ReturnType<typeof useCalculo>
 </script>
 
 <template>

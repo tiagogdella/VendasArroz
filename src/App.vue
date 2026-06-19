@@ -3,11 +3,20 @@ import { useCalculo } from './composables/useCalculo';
 import FormularioPreco from './components/FormularioPreco.vue';
 import ResultadoPreco from  './components/ResultadoPreco.vue'
 import { provide, ref } from  'vue';
+import { useCalculoCompra } from './composables/useCalculoCompra.ts';
+import FormularioCompra from './components/FormularioCompra.vue';
+import ResultadoCompra from './components/ResultadoCompra.vue';
+
+const tela = ref<'venda' | 'compra'>('venda')
 
 const calculo = useCalculo()
 provide('calculo', calculo)
 
+const calculoCompra = useCalculoCompra()
+provide('calculoCompra', calculoCompra)
+
 const { precoFinal, icmsBruto, financeiroBruto, commissaoBruto, frete, embalagem, } = calculo
+const { valorCompra, valorInicial, funrural, commissaoCompra, freteCompra, CDO } = calculoCompra
 const copiado = ref(false)
 
 function copiar() {
@@ -28,13 +37,28 @@ function copiar() {
 </script>
 
 <template>
+  <h1>{{ tela === 'venda' ? 'Cálculo de Venda' : 'Compra Casca' }}</h1>
   <div class="contFat">
-    <FormularioPreco />
-    <ResultadoPreco />
+    <div v-if="tela==='venda'" style="display: flex; gap: 4px">
+      <FormularioPreco />
+      <ResultadoPreco />
+    </div>
+    <div v-if="tela ==='compra'" style="display: flex; gap: 4px">
+      <FormularioCompra />
+      <ResultadoCompra />
+    </div>
   </div>
-  <div class="button">
-    <button @click="copiar">COPIAR TABELA</button>
-    <div v-if="copiado" class="popup">Copiado!</div>
+  <div class="buttons">
+    <div class="button" v-if="tela === 'compra'">
+      <button @click="tela = 'venda'">VENDA</button>
+    </div>
+    <div class="button" v-if="tela === 'venda'">
+      <button @click="tela = 'compra'">COMPRA CASCA</button>
+    </div>
+    <div class="button">
+      <button @click="copiar">COPIAR TABELA</button>
+      <div v-if="copiado" class="popup">Copiado!</div>
+    </div>
   </div>
 </template>
 
@@ -47,10 +71,19 @@ function copiar() {
   justify-content: center;
 
 }
-button{
+
+.buttons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button{
   margin-top: 3px;
+  margin-left: 3px;
   font-size: large;
 }
+
 .popup{
   position: fixed;
   top: 50%;

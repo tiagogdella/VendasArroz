@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject } from 'vue';
-import { useCalculo } from '../composables/useCalculo';
+import { useCalculoCompra } from '../composables/useCalculoCompra';
 
-const { precoFinal, icmsBruto, embalagem, financeiroBruto, frete, commissaoBruto } = inject<ReturnType<typeof useCalculo>>('calculo')!
+const { valorCompra, valorInicial, funruralBruto, commissaoBruto, freteCompra, CDO } = inject<ReturnType<typeof useCalculoCompra>>('calculoCompra')!
 </script>
 
 <template>
@@ -10,28 +10,28 @@ const { precoFinal, icmsBruto, embalagem, financeiroBruto, frete, commissaoBruto
         <table>
             <tbody>
                 <tr>
-                    <td>Preço de venda</td>
-                    <td>R${{ precoFinal?.toFixed(2) }}</td>
+                    <td>CASCA</td>
+                    <td>R${{ valorCompra?.toFixed(2) }}</td>
                 </tr>
-                <tr v-if="icmsBruto">
-                    <td>ICMS</td>
-                    <td>R$:{{ icmsBruto?.toFixed(2)}}</td>
-                </tr>
-                <tr v-if="financeiroBruto">
-                    <td>Financeiro</td>
-                    <td>R$:{{ financeiroBruto?.toFixed(2) }}</td>
-                </tr>
-                <tr v-if="frete">
-                    <td>Frete</td>
-                    <td>R$:{{ frete?.toFixed(2) }}</td>
+                <tr v-if="funruralBruto">
+                    <td>Funrual</td>
+                    <td>R$:{{ funruralBruto?.toFixed(2)}}</td>
                 </tr>
                 <tr v-if="commissaoBruto">
                     <td>Comissão</td>
                     <td>R$:{{ commissaoBruto?.toFixed(2) }}</td>
                 </tr>
-                <tr v-if="embalagem">
-                    <td>Embalagem</td>
-                    <td>R$:{{ embalagem?.toFixed(2) }}</td>
+                <tr v-if="freteCompra">
+                    <td>Frete</td>
+                    <td>R$:{{ freteCompra?.toFixed(2) }}</td>
+                </tr>
+                <tr v-if="CDO">
+                    <td>CDO</td>
+                    <td>R$:{{ CDO?.toFixed(2) }}</td>
+                </tr>
+                <tr>
+                    <td>Casca final</td>
+                    <td>R$:{{ valorInicial?.toFixed(2) }}</td>
                 </tr>
             </tbody>
         </table>

@@ -1,29 +1,26 @@
 <script setup lang="ts">
-import { inject } from 'vue'
-import { useCalculo } from '../composables/useCalculo'
+    import {inject} from 'vue'
+    import { useCalculoCompra } from '../composables/useCalculoCompra';
 
-const { custoCasca, financeiro, icms, embalagem, commissao, frete } = inject<ReturnType<typeof useCalculo>>('calculo')!
+    const { valorInicial, funrural, commissaoCompra, freteCompra, CDO } = inject<ReturnType<typeof useCalculoCompra>>('calculoCompra')!
 </script>
 
 <template>
     <form class="formulario">
-        <label>Custo Arroz</label>
-        <input type="number" v-model="custoCasca" />
+        <label>Casca em casa</label>
+        <input type="number" v-model="valorInicial" />
 
-        <label>ICMS em %</label>
-        <input type="number" v-model="icms" />
+        <label>Funrural em %</label>
+        <input type="number" v-model="funrural" />
         
-        <label>Financeiro em %</label>
-        <input type="number" v-model="financeiro" />
+        <label>CDO</label>
+        <input :value="CDO" readonly />
+
+        <label>Commissão em %</label>
+        <input type="number" v-model="commissaoCompra" />
         
         <label>Frete</label>
-        <input type="number" v-model="frete" />
-       
-        <label>Commissão em %</label>
-        <input type="number" v-model="commissao" />
-        
-        <label>embalagem</label>
-        <input type="number" v-model="embalagem" />
+        <input type="number" v-model="freteCompra" />
     </form>
 </template>
 
@@ -54,8 +51,11 @@ const { custoCasca, financeiro, icms, embalagem, commissao, frete } = inject<Ret
     width: 80%;
     display: block;
     margin: 0 auto;
-    }
+  }
 }
 
 </style>
+
+
+
 

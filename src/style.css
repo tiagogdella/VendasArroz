@@ -92,7 +92,7 @@ label{
 
 td{
   border: 2px solid black;
-  width: 180px;
+  width: auto;
 }
 
 tr{
@@ -316,3 +316,4 @@ code {
     border-right-color: var(--border);
   }
 }
+

@@ -16,21 +16,32 @@ const calculoCompra = useCalculoCompra()
 provide('calculoCompra', calculoCompra)
 
 const { precoFinal, icmsBruto, financeiroBruto, commissaoBruto, frete, embalagem, } = calculo
-const { valorCompra, valorInicial, funrural, commissaoCompra, freteCompra, CDO } = calculoCompra
+const { valorCompra, valorInicial, funrural, commissaoCompra, freteCompra, CDO, funruralBruto, commissaoBruto: commissaoBrutoCompra } = calculoCompra
 const copiado = ref(false)
 
 function copiar() {
-  const linhas = [
-    `📊 *Cálculo de Venda*\n`,
-    `Preço de Venda  →  R$ ${precoFinal.value?.toFixed(2)}`,
-    icmsBruto.value ? `ICMS            →  R$ ${icmsBruto.value.toFixed(2)}` : '',
-    financeiroBruto.value ? `Financeiro      →  R$ ${financeiroBruto.value.toFixed(2)}` : '',
-    frete.value ? `Frete           →  R$ ${frete.value.toFixed(2)}` : '',
-    commissaoBruto.value ? `Comissão        →  R$ ${commissaoBruto.value.toFixed(2)}` : '',
-    embalagem.value ? `Embalagem       →  R$ ${embalagem.value.toFixed(2)}` : '',
-  ]
-  const texto = linhas.filter(l => l !== '').join('\n')
-  navigator.clipboard.writeText(texto)
+  if (tela.value === 'venda') {
+    const linhas = [
+      `📊 *Cálculo de Venda*\n`,
+      `Preço de Venda  →  R$ ${precoFinal.value?.toFixed(2)}`,
+      icmsBruto.value ? `ICMS            →  R$ ${icmsBruto.value.toFixed(2)}` : '',
+      financeiroBruto.value ? `Financeiro      →  R$ ${financeiroBruto.value.toFixed(2)}` : '',
+      frete.value ? `Frete           →  R$ ${frete.value.toFixed(2)}` : '',
+      commissaoBruto.value ? `Comissão        →  R$ ${commissaoBruto.value.toFixed(2)}` : '',
+      embalagem.value ? `Embalagem       →  R$ ${embalagem.value.toFixed(2)}` : '',
+    ]
+    navigator.clipboard.writeText(linhas.filter(l => l !== '').join('\n'))
+  } else {
+    const linhas = [
+      `🛒 *Compra Casca*\n`,
+      `Valor de Compra →  R$ ${valorCompra.value?.toFixed(2)}`,
+      funruralBruto.value ? `Funrural        →  R$ ${funruralBruto.value.toFixed(2)}` : '',
+      commissaoBrutoCompra.value ? `Comissão        →  R$ ${commissaoBrutoCompra.value.toFixed(2)}` : '',
+      freteCompra.value ? `Frete           →  R$ ${freteCompra.value.toFixed(2)}` : '',
+      valorInicial.value ? `Valor Bruto       →  R$${valorInicial.value.toFixed(2)}` : '',
+    ]
+    navigator.clipboard.writeText(linhas.filter(l => l !== '').join('\n'))
+  }
   copiado.value = true
   setTimeout(() => copiado.value = false, 2000)
 }
@@ -64,7 +75,7 @@ function copiar() {
 
 <style>
 .contFat{
-  margin-top: 50px;
+  margin-top: 10px;
   background-color: rgb(66, 66, 66);
   display: flex;
   align-items: center;

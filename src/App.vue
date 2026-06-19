@@ -16,7 +16,7 @@ const calculoCompra = useCalculoCompra()
 provide('calculoCompra', calculoCompra)
 
 const { precoFinal, icmsBruto, financeiroBruto, commissaoBruto, frete, embalagem, } = calculo
-const { valorCompra, valorInicial, funrural, commissaoCompra, freteCompra, CDO, funruralBruto, commissaoBruto: commissaoBrutoCompra } = calculoCompra
+const { valorCompra, valorInicial, freteCompra, funruralBruto, commissaoBruto: commissaoBrutoCompra } = calculoCompra
 const copiado = ref(false)
 
 function copiar() {

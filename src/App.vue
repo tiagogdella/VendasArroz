@@ -6,8 +6,11 @@ import { provide, ref } from  'vue';
 import { useCalculoCompra } from './composables/useCalculoCompra.ts';
 import FormularioCompra from './components/FormularioCompra.vue';
 import ResultadoCompra from './components/ResultadoCompra.vue';
+import { usePedido } from './composables/usePedido';
+import FormularioPedido from './components/FormularioPedido.vue';
+import ResultadoPedido from './components/ResultadoPedido.vue';
 
-const tela = ref<'venda' | 'compra'>('venda')
+const tela = ref<'venda' | 'compra' | 'pedido'>('venda')
 
 const calculo = useCalculo()
 provide('calculo', calculo)
@@ -15,8 +18,13 @@ provide('calculo', calculo)
 const calculoCompra = useCalculoCompra()
 provide('calculoCompra', calculoCompra)
 
+const pedido = usePedido()
+provide('pedido', pedido)
+
 const { precoFinal, icmsBruto, financeiroBruto, commissaoBruto, frete, embalagem, } = calculo
 const { valorCompra, valorInicial, freteCompra, funruralBruto, commissaoBruto: commissaoBrutoCompra } = calculoCompra
+const { cliente, itensPreenchidos, quantidadeTotal, valorTotal, mostrarQuantidadeTotal, placa, transportadora, observacao } = pedido
+
 const copiado = ref(false)
 
 function copiar() {
@@ -31,7 +39,7 @@ function copiar() {
       embalagem.value ? `Embalagem       →  R$ ${embalagem.value.toFixed(2)}` : '',
     ]
     navigator.clipboard.writeText(linhas.filter(l => l !== '').join('\n'))
-  } else {
+  } else if (tela.value === 'compra') {
     const linhas = [
       `🛒 *Compra Casca*\n`,
       `Valor de Compra →  R$ ${valorCompra.value?.toFixed(2)}`,
@@ -41,14 +49,33 @@ function copiar() {
       valorInicial.value ? `Valor Bruto       →  R$${valorInicial.value.toFixed(2)}` : '',
     ]
     navigator.clipboard.writeText(linhas.filter(l => l !== '').join('\n'))
+  } else {
+    const linhas = [
+      `🌾 *Pedido*\n`,
+      cliente.value.trim() ? `Cliente         →  ${cliente.value}` : '',
+      ...itensPreenchidos.value.map(item => {
+        const partes = []
+        if (item.quantidade) partes.push(`${item.quantidade}`)
+        if (item.preco) partes.push(`R$ ${Number(item.preco).toFixed(2)}`)
+        return `${item.produto || 'Produto'}  →  ${partes.join(' x ')}`
+      }),
+      mostrarQuantidadeTotal.value ? `Quantidade Total →  ${quantidadeTotal.value}` : '',
+      valorTotal.value ? `Valor Total     →  R$ ${valorTotal.value.toFixed(2)}` : '',
+      placa.value.trim() ? `Placa           →  ${placa.value.toUpperCase()}` : '',
+      transportadora.value.trim() ? `Transportadora  →  ${transportadora.value}` : '',
+      observacao.value.trim() ? `Observação      →  ${observacao.value}` : '',
+    ]
+    navigator.clipboard.writeText(linhas.filter(l => l !== '').join('\n'))
   }
+
   copiado.value = true
   setTimeout(() => copiado.value = false, 2000)
 }
 </script>
 
 <template>
-  <h1>{{ tela === 'venda' ? 'Cálculo de Venda' : 'Compra Casca' }}</h1>
+  <h1>{{ tela === 'venda' ? 'Cálculo de Venda' : tela === 'compra' ? 'Compra Casca' : 'Pedido' }}</h1>
+  
   <div class="contFat">
     <div v-if="tela==='venda'" style="display: flex; gap: 4px">
       <FormularioPreco />
@@ -58,13 +85,21 @@ function copiar() {
       <FormularioCompra />
       <ResultadoCompra />
     </div>
+    <div v-if="tela === 'pedido'" style="display: flex; gap: 4px">
+      <FormularioPedido />
+      <ResultadoPedido />
+    </div>
   </div>
+
   <div class="buttons">
-    <div class="button" v-if="tela === 'compra'">
+    <div class="button" v-if="tela !== 'venda'">
       <button @click="tela = 'venda'">VENDA</button>
     </div>
-    <div class="button" v-if="tela === 'venda'">
+    <div class="button" v-if="tela !== 'compra'">
       <button @click="tela = 'compra'">COMPRA CASCA</button>
+    </div>
+    <div class="button" v-if="tela !== 'pedido'">
+      <button @click="tela = 'pedido'">PEDIDO</button>
     </div>
     <div class="button">
       <button @click="copiar">COPIAR TABELA</button>

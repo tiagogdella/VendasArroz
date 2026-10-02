@@ -85,7 +85,7 @@ function copiar() {
       <FormularioCompra />
       <ResultadoCompra />
     </div>
-    <div v-if="tela === 'pedido'" style="display: flex; gap: 4px">
+    <div v-if="tela === 'pedido'" class="telaPedido">
       <FormularioPedido />
       <ResultadoPedido />
     </div>
@@ -141,5 +141,24 @@ function copiar() {
   box-shadow: 0 10px 40px rgba(0,0,0,0.3);
   font-size: 18px;
   z-index: 999;
+}
+
+.telaPedido{
+  display: flex;
+  gap: 4px;
+}
+
+@media (max-width: 768px) {
+  .telaPedido{
+    flex-direction: column;
+    align-items: center;
+  }
+  .telaPedido .formulario,
+  .telaPedido .resultsBanner{
+    width: 90vw;
+    margin: 10px 0;
+    box-sizing: border-box;
+    padding: 20px 16px;
+  }
 }
 </style>

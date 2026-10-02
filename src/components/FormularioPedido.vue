@@ -39,10 +39,23 @@ const { cliente, itens, placa, transportadora, observacao, adicionarItem, remove
 
 .itemPedido{
     display: flex;
+    flex-wrap: wrap;
     gap: 4px;
     margin-bottom: 4px;
 }
 .itemPedido input{
     width: 100px;
+}
+
+@media (max-width: 768px) {
+  .formulario .itemPedido input{
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    margin: 0;
+  }
+  .formulario .itemPedido input[type="text"]{
+    flex-basis: 100%;
+  }
 }
 </style>

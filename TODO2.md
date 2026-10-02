@@ -28,7 +28,7 @@ Regra geral: **campo não preenchido é ignorado** (não aparece no resultado ne
 - [x] Componente `ResultadoPedido.vue` (resumo do pedido, ignorando campos vazios)
 - [x] Navegação entre as três telas em `App.vue` (Venda / Compra Casca / Pedido)
 - [x] "Copiar tabela" gerando o texto do pedido para WhatsApp
-- [ ] Testar no celular (layout com vários produtos)
+- [x] Layout mobile do pedido (formulário e resultado empilhados, linha do produto quebrando)
 - [ ] Botão "Limpar pedido" para começar um novo
 - [ ] Bug nas telas Venda e Compra: digitar um número e apagar deixa `''` no campo e a conta sai errada (corrigir com `Number(x) || 0`, igual ao `usePedido.ts`)
 - [ ] Commit da funcionalidade de pedidos
